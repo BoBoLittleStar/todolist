@@ -1,23 +1,15 @@
-/** @jsxImportSource @emotion/react */
-import {css} from "@emotion/react";
 import React from "react";
 import {render} from "react-dom";
 import {Provider} from "react-redux";
-import App from "./comp/App";
-import store from "./features/store";
-import "./resources/css/index.css";
+import App from "./comp/App/App";
+import "./comp/index.sass";
+import store from "./reducers/store";
 
 render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<header>
-				<h1 css={css`
-                  text-align: center;
-                  margin: 4px;
-                  font-size: 77pt;
-                  font-weight: lighter;
-                  color: #e8d9d9;
-				`}>todos</h1>
+				<h1>todos</h1>
 			</header>
 			<App />
 		</Provider>

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v4} from "uuid";
-import {initialState, State} from "./state";
+import {initialState, State} from "./types";
 
 const _slice = createSlice({
 	name: "todos",
@@ -14,7 +14,7 @@ const _slice = createSlice({
 		},
 		edit(state, action: PayloadAction<{ id: string, task: string }>) {
 			const item = state.items[action.payload.id];
-			item.task = action.payload.task;
+			item.task !== action.payload.task && (item.task = action.payload.task);
 		},
 		tick(state, action: PayloadAction<string>) {
 			const item = state.items[action.payload];
@@ -37,11 +37,11 @@ const _slice = createSlice({
 				}
 		},
 		removeChecked(state) {
-			state.ids = state.ids.filter(id => {
+			state.count < state.ids.length && (state.ids = state.ids.filter(id => {
 				const del = state.items[id].checked;
 				del && delete state.items[id];
 				return !del;
-			});
+			}));
 		}
 	},
 });

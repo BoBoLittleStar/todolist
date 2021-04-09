@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {Item, State} from "./todo/state";
 import reducer from "./todo/todoSlice";
+import {Item, State} from "./todo/types";
 
 const load = (): State => {
 	try {
