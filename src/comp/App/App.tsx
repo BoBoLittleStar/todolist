@@ -1,23 +1,71 @@
 /** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {actions, state as todos} from "../../reducers/todo/todoSlice";
 import Input from "../Input/Input";
-import List from "../List/List";
+import Item from "../Item/Item";
 import "./App.sass";
 
 export default function App(): JSX.Element {
-	const [task, setTask] = useState("");
+	const [filter, setFilter] = useState("");
 	const state = useSelector(todos), dispatch = useDispatch();
+	const li: JSX.Element[] = [];
+	state.ids.forEach(id => li.push(<Item filter={filter} key={id}>{{id: id, item: state.items[id]}}</Item>));
+
+	const Arrow = styled.div<{ allTicked: boolean }>`
+      display: inherit;
+      color: ${props => props.hidden ? "transparent" : (props.allTicked ? "#737373" : "#e6e6e6")};
+	`;
+
+	const Filter = styled.label<{ checked: boolean }>`
+      border: 1px solid ${props => props.checked ? "#f0d6d7" : "transparent"};
+      margin: 10px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        border-color: ${props => props.checked ? "#f0d6d7" : "#f7ebea"};
+      }
+	`;
+	const Clear = styled.label`
+      color: ${props => props.hidden ? "transparent" : "inherit"};
+      display: inherit;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration-line: underline;
+      }
+	`;
+
 	return <div className="page">
 		<div className="header">
-			<button className="select-all"
-			        onClick={() => dispatch(actions.tickAll())}>
-				<div className={`arrow${state.count === 0 ? "-all" : ""}`}
-				     hidden={state.ids.length === 0}>❯</div>
-			</button>
+			<div className="header-row">
+				<button className="select-all"
+				        onClick={() => dispatch(actions.tickAll())}>
+					<Arrow className="arrow"
+					       allTicked={state.count === 0}
+					       hidden={state.ids.length === 0}>❯</Arrow>
+				</button>
+			</div>
 			<Input />
 		</div>
-		<List />
+		<ul>{li}</ul>
+		<div className="footer" hidden={state.ids.length === 0}>
+			<div className="left">
+				{state.count} item{state.count === 1 ? "" : "s"} left
+			</div>
+			<div className="center">
+				<Filter checked={filter === ""} onClick={() => filter !== "" && setFilter("")}>All</Filter>
+				<Filter checked={filter === "unchecked"} onClick={() => filter !== "unchecked" && setFilter("unchecked")}>Active</Filter>
+				<Filter checked={filter === "checked"} onClick={() => filter !== "checked" && setFilter("checked")}>Completed</Filter>
+			</div>
+			<div className="right">
+				<Clear hidden={state.count === state.ids.length}
+				       onClick={() => dispatch(actions.removeChecked())}>Clear completed</Clear>
+			</div>
+		</div>
 	</div>;
 }

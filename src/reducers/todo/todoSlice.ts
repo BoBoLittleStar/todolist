@@ -19,6 +19,7 @@ const _slice = createSlice({
 		tick(state, action: PayloadAction<string>) {
 			const item = state.items[action.payload];
 			item.checked = !item.checked;
+			item.checked ? state.count-- : state.count++;
 		},
 		tickAll(state) {
 			const tick = state.count > 0;

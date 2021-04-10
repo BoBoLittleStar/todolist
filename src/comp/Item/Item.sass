@@ -1,13 +1,69 @@
-.select
-	width: 30px
-	height: 30px
+li
+	border-top: 1px solid whitesmoke
+	border-bottom: 1px solid whitesmoke
 	background-color: white
-	border: 1px solid
-	border-radius: 50%
 
-.tick
-	width: 16px
-	height: 6px
-	border-bottom: 2px solid transparent
-	border-left: 2px solid transparent
-	transform: translate(-1px, -1px) rotate(-55deg) skewX(-6deg)
+	&:hover button
+		visibility: visible
+
+	div
+		display: flex
+
+		button
+			margin: 12px 10px
+
+		.select
+			width: 30px
+			height: 30px
+			margin: 12px 10px
+			background-color: transparent
+			border-width: 1px
+			border-style: solid
+			border-radius: 50%
+
+			.tick
+				width: 16px
+				height: 6px
+				border-bottom-width: 2px
+				border-bottom-style: solid
+				border-left-width: 2px
+				border-left-style: solid
+				transform: translate(-1px, -1px) rotate(-55deg) skewX(-6deg)
+
+		div
+			p
+				margin: auto
+				font-weight: lighter
+				font-size: 19pt
+				word-break: break-all
+
+			input
+				border: 1px solid black
+				margin: 0
+				font-weight: lighter
+				font-size: 19pt
+
+	.button-delete
+		min-width: 30px
+		min-height: 30px
+		background-color: transparent
+		border: none
+		visibility: hidden
+
+		&:hover
+			.cross-a, .cross-b
+				border-color: #af5b5e
+				transition: border-top-color, border-bottom-color
+				transition-duration: 200ms
+
+		.cross-a, .cross-b
+			border-top: 1px solid #cc9a9a
+			border-bottom: 1px solid #cc9a9a
+			transition: border-top-color, border-bottom-color
+			transition-duration: 200ms
+
+		.cross-a
+			transform: translateY(2px) rotate(45deg)
+
+		.cross-b
+			transform: rotate(-45deg)
