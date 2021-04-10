@@ -1,21 +1,45 @@
 .page
-	margin: auto
-	width: 550px
+	.header
+		display: flex
 
-.header
-	display: flex
+		.header-row
+			background-color: white
+			padding: 10px
 
-.select-all
+			.select-all
+				background-color: transparent
+				border: none
+				transform: rotate(90deg)
+
+	.arrow
+		font-size: 15pt
+
+	ul
+		list-style-type: none
+		margin: 0
+		padding: 0
+
+.footer
 	background-color: white
-	border: none
-	height: 50px
-	width: 50px
-	transform: rotate(90deg)
+	font-size: 10pt
+	text-align: center
+	font-weight: lighter
+	padding: 10px
 
-.arrow
-	font-size: 15pt
-	color: #e6e6e6
+	div
+		display: inline-block
 
-.arrow-all
-	@extend .arrow
-	color: #737373
+		button
+			background-color: transparent
+			font-size: 10pt
+			font-weight: lighter
+
+	.left
+		width: 25%
+		text-align: left
+		float: left
+
+	.right
+		width: 25%
+		text-align: right
+		float: right
