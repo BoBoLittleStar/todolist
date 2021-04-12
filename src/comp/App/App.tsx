@@ -2,14 +2,14 @@
 import styled from "@emotion/styled";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {actions, state as todos} from "../../reducers/todo/todoSlice";
+import {actions, selector} from "../../reducers/todo/state";
 import Input from "../Input/Input";
 import Item from "../Item/Item";
 import "./App.sass";
 
 export default function App(): JSX.Element {
 	const [filter, setFilter] = useState("");
-	const state = useSelector(todos), dispatch = useDispatch();
+	const state = useSelector(selector), dispatch = useDispatch();
 	const li: JSX.Element[] = [];
 	state.ids.forEach(id => li.push(<Item filter={filter} key={id}>{{id: id, item: state.items[id]}}</Item>));
 
