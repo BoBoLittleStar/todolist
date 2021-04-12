@@ -1,6 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
-import reducer from "./todo/todoSlice";
+import promiseMiddleware from "redux-promise";
+import {address} from "../config/config";
+import reducers from "./todo/state";
 import {Item, State} from "./todo/types";
+
+const test = async () => {
+	console.log(await fetch(address).then(response => response.json()));
+};
+test();
 
 const load = (): State => {
 	try {
@@ -35,11 +42,13 @@ const save = (state: State) => {
 };
 
 const store = configureStore({
-	preloadedState: {todos: load()},
-	reducer: {
-		todos: reducer,
-	},
-});
+		preloadedState: {todos: load()},
+		reducer: {
+			todos: reducers,
+		},
+		middleware: [promiseMiddleware],
+	})
+;
 
 store.subscribe(() => save(store.getState().todos));
 
