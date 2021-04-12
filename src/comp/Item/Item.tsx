@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
-import {actions} from "../../reducers/todo/todoSlice";
+import {actions} from "../../reducers/todo/state";
 import {Item as _Item} from "../../reducers/todo/types";
 import "./Item.sass";
 
