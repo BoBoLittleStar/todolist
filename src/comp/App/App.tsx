@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {actions, selector} from "../../reducers/todo/state";
+import {actions} from "../../reducers/request";
+import {selector} from "../../reducers/todo/state";
 import Input from "../Input/Input";
 import Item from "../Item/Item";
 import "./App.sass";
@@ -10,6 +11,9 @@ import "./App.sass";
 export default function App(): JSX.Element {
 	const [filter, setFilter] = useState("");
 	const state = useSelector(selector), dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(actions.load());
+	}, [dispatch]);
 	const li: JSX.Element[] = [];
 	state.ids.forEach(id => li.push(<Item filter={filter} key={id}>{{id: id, item: state.items[id]}}</Item>));
 
@@ -17,7 +21,6 @@ export default function App(): JSX.Element {
       display: inherit;
       color: ${props => props.hidden ? "transparent" : (props.allTicked ? "#737373" : "#e6e6e6")};
 	`;
-
 	const Filter = styled.label<{ checked: boolean }>`
       border: 1px solid ${props => props.checked ? "#f0d6d7" : "transparent"};
       margin: 10px;
@@ -44,7 +47,7 @@ export default function App(): JSX.Element {
 		<div className="header">
 			<div className="header-row">
 				<button className="select-all"
-				        onClick={() => dispatch(actions.tickAll())}>
+				        onClick={() => dispatch(actions.tickAll(state.count > 0))}>
 					<Arrow className="arrow"
 					       allTicked={state.count === 0}
 					       hidden={state.ids.length === 0}>❯</Arrow>
