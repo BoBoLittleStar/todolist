@@ -1,6 +1,6 @@
 import React from "react";
 import {useDispatch} from "react-redux";
-import {actions} from "../../reducers/todo/state";
+import {actions} from "../../reducers/request";
 import "./Input.sass";
 
 export default function Input(): JSX.Element {
