@@ -10,10 +10,10 @@ type Element = {
 	item: _Item,
 }
 
-export default function Item({filter, children: elem}: { filter: string, children: Element }): JSX.Element {
+export default function Item({children: elem}: { children: Element }): JSX.Element {
 	const dispatch = useDispatch();
 	const [edit, setEdit] = useState("");
-	const check = elem.item.checked, editing = edit === elem.id;
+	const task = elem.item.task, checked = elem.item.checked, editing = edit === elem.id;
 
 	const Button = styled.button<{ checked: boolean, editing: boolean }>`
       border-color: ${props => props.editing ? "transparent" : (props.checked ? "#cbdfdb" : "#f0f0f0")};;
@@ -21,29 +21,33 @@ export default function Item({filter, children: elem}: { filter: string, childre
 	const Div = styled.div<{ checked: boolean, editing: boolean }>`
       border-color: ${props => props.editing ? "transparent" : (props.checked ? "#5dc2ae" : "transparent")};
 	`;
+	const P = styled.p<{ checked: boolean }>`
+      color: ${props => props.checked ? "lightgray" : "black"};
+      text-decoration-line: ${props => props.checked ? "line-through" : "none"};
+	`;
 
-	return <li hidden={elem.item.checked ? filter === "unchecked" : filter === "checked"}>
+	return <li>
 		<div>
-			<Button className="select" checked={check} editing={editing} onClick={() => !editing && dispatch(actions.tick(elem.id))}>
-				<Div className="tick" checked={check} editing={editing} />
+			<Button className="select" checked={checked} editing={editing} onClick={() => !editing && dispatch(actions.tick(elem.id))}>
+				<Div className="tick" checked={checked} editing={editing} />
 			</Button>
 			<div onDoubleClick={() => setEdit(elem.id)}>
-				<p>{elem.item.task}</p>
-					<input defaultValue={elem.item.task}
-					       onBlurCapture={(e) => {
-						       let target = e.target, temp = target.value.trim();
-						       temp ? dispatch(actions.edit({
-							       id: elem.id,
-							       task: temp,
-						       })) : (target.value = target.defaultValue);
-						       setEdit("");
-					       }}
-					       onKeyDown={(e) => {
-						       let target = e.target as HTMLInputElement;
-						       e.key === "Escape" && !(target.value = "") && target.blur();
-						       e.key === "Enter" && target.blur();
-					       }}
-					       hidden={!editing} />
+				<P checked={checked}>{task}</P>
+				<input defaultValue={task}
+				       onBlurCapture={(e) => {
+					       let target = e.target, temp = target.value.trim();
+					       temp ? dispatch(actions.edit({
+						       id: elem.id,
+						       task: temp,
+					       })) : (target.value = target.defaultValue);
+					       setEdit("");
+				       }}
+				       onKeyDown={(e) => {
+					       let target = e.target as HTMLInputElement;
+					       e.key === "Escape" && !(target.value = "") && target.blur();
+					       e.key === "Enter" && target.blur();
+				       }}
+				       hidden={!editing} />
 				<button className="button-delete" onClick={() => dispatch(actions.remove(elem.id))} hidden={editing}>
 					<div className="cross-a" />
 					<div className="cross-b" />

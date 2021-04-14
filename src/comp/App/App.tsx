@@ -15,7 +15,9 @@ export default function App(): JSX.Element {
 		dispatch(actions.load());
 	}, [dispatch]);
 	const li: JSX.Element[] = [];
-	state.ids.forEach(id => li.push(<Item filter={filter} key={id}>{{id: id, item: state.items[id]}}</Item>));
+	state.ids.forEach(id => (!filter || filter === (state.items[id].checked ? "checked" : "unchecked")) && li.push(
+		<Item key={id}>{{id: id, item: state.items[id]}}</Item>
+	));
 
 	const Arrow = styled.div<{ allTicked: boolean }>`
       display: inherit;
